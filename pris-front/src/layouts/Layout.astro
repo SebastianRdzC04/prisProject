@@ -1,15 +1,27 @@
+---
+// Corregir la ruta de importación
+import '../styles/global.css';
+import Header from "../components/astro-components/Header.astro";
+import SideBar from "../components/astro-components/SideBar.astro";
+---
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width" />
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+	<meta name="generator" content={Astro.generator} />
+	<title>Astro Basics</title>
+</head>
+<body>
+<Header/>
+<div class="flex">
+	<SideBar/>
+	<main class="ml-56 flex-1 p-6">
 		<slot />
-	</body>
+	</main>
+</div>
+</body>
 </html>
 
 <style>
@@ -18,5 +30,15 @@
 		margin: 0;
 		width: 100%;
 		height: 100%;
+	}
+
+	body {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.flex {
+		display: flex;
+		flex: 1;
 	}
 </style>

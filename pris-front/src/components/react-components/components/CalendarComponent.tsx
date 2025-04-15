@@ -28,7 +28,7 @@ type CalendarProps = {
     className?: string
 }
 
-export function Calendar({
+export default function CalendarComponent({
                              closedDays = [],
                              possibleDays = [],
                              disabledDays = [],
@@ -80,10 +80,9 @@ export function Calendar({
     // Get days from next month to fill the last row
     const nextMonthDays =
         endDay > 0
-            ? eachDayOfInterval({
-                start: addMonths(monthEnd, 0),
-                end: addMonths(monthEnd, 0),
-            }).slice(0, endDay)
+            ? Array.from({ length: endDay }, (_, i) =>
+                new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, i + 1)
+            )
             : []
 
     // Combine all days
