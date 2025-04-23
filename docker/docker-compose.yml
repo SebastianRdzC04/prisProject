@@ -33,7 +33,7 @@ services:
     container_name: nginx-frontend-pris
     restart: always
     ports:
-      - "803:803"
+      - "803:80"
     volumes:
       - ../pris-front/dist:/usr/share/nginx/html
     depends_on:
