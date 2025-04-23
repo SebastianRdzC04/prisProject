@@ -9,7 +9,7 @@ from sqlalchemy import Enum as SQLAlchemyEnum, Column
 # Definición de Enums
 class DateType(str, Enum):
     consulta = "consulta"
-    seguimineot = "seguimiento"
+    seguimiento = "seguimiento"
 
 
 class DateStatus(str, Enum):
@@ -156,7 +156,7 @@ class Date(SQLModel, table=True):
     )
     client_id: uuid.UUID = Field(foreign_key="clients.id")
     type: DateType = Field(sa_column=Column("type", SQLAlchemyEnum(DateType, name="date_types")))
-    status: DateStatus = Field(default=DateStatus.pendiente, sa_column=Column("status", SQLAlchemyEnum(DateStatus.pendiente, name="date_status")))
+    status: DateStatus = Field(default=DateStatus.pendiente, sa_column=Column("status", SQLAlchemyEnum(DateStatus, name="date_status")))
     date: date
     time: time
     is_on: bool = True
@@ -176,7 +176,7 @@ class Appointment(SQLModel, table=True):
     )
     client_id: uuid.UUID = Field(foreign_key="clients.id")
     date_id: uuid.UUID = Field(foreign_key="dates.id")
-    status: AppointmentStatus = Field(default=AppointmentStatus.en_proceso , sa_column=Column("status", SQLAlchemyEnum(AppointmentStatus.en_proceso, name="appoitment_status")))
+    status: AppointmentStatus = Field(default=AppointmentStatus.en_proceso , sa_column=Column("status", SQLAlchemyEnum(AppointmentStatus, name="appoitment_status")))
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime = Field(default_factory=datetime.now)
 
