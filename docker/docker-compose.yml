@@ -1,9 +1,9 @@
 services:
-  fastapi-microservice:
+  fastapi-microservice-pris:
     build:
       context: ../pris-backend
       dockerfile: ../docker/Dockerfile
-    container_name: fastapi-microservice
+    container_name: fastapi-microservice-pris
     ports:
       - "${API_PORT}:${API_PORT}"
     env_file:
@@ -12,11 +12,11 @@ services:
     volumes:
       - ../pris-backend:/app
     depends_on:
-      - postgres
+      - postgres-pris
 
-  postgres:
+  postgres-pris:
     image: postgres:latest
-    container_name: postgres-database
+    container_name: postgres-database-pris
     restart: always
     environment:
       POSTGRES_USER: ${DATABASE_USER}
@@ -28,16 +28,16 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
-  nginx:
+  nginx-pris:
     image: nginx:latest
-    container_name: nginx-frontend
+    container_name: nginx-frontend-pris
     restart: always
     ports:
       - "80:80"
     volumes:
       - ../pris-front/dist:/usr/share/nginx/html
     depends_on:
-      - fastapi-microservice
+      - fastapi-microservice-pris
 
 volumes:
   postgres_data:
