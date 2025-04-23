@@ -5,17 +5,8 @@ from dotenv import load_dotenv
 import os
 from pathlib import Path
 
-# Obtener la ruta absoluta al directorio raíz del proyecto
-BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
-# Ruta al archivo .env
-ENV_PATH = os.path.join(BASE_DIR, "docker", ".env")
 
-# Verificar si el archivo existe
-if not os.path.exists(ENV_PATH):
-    raise FileNotFoundError(f"El archivo .env no se encontró en: {ENV_PATH}")
-
-# Cargar .env
-load_dotenv(ENV_PATH)
+load_dotenv()
 
 # Obtener la URL de la base de datos
 DATABASE_URL = os.getenv("DATABASE_URL")

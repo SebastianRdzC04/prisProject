@@ -1,2 +1,4 @@
 # Ignorar archivos de docker
 docker/.env
+
+pris-backend/.env
