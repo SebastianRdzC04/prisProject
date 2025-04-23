@@ -21,6 +21,16 @@ import SideBar from "../components/astro-components/SideBar.astro";
 		<slot />
 	</main>
 </div>
+
+<script>
+	// Verificar si existe un token en localStorage
+	const token = localStorage.getItem('token');
+
+	// Si no hay token, redirigir a la página de autenticación
+	if (!token) {
+		window.location.href = '/authenticate';
+	}
+</script>
 </body>
 </html>
 

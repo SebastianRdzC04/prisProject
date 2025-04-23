@@ -1,16 +1,33 @@
 "use client"
 
-import React from "react"
+import React, { useState, useEffect } from "react"
 import SearchBar from "../components/SearchBar"
-import TablePatients from "../components/TablePatients.tsx";
+import TablePatients from "../components/TablePatients";
 
 export default function PatientsContent() {
+    const [pacientes, setPacientes] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchPacientes = async () => {
+            try {
+                const response = await fetch("https://apipris.kysedomi.lat/clients/");
+                const data = await response.json();
+                setPacientes(data);
+            } catch (error) {
+                console.error("Error al obtener los pacientes:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPacientes();
+    }, []);
+
     const handleSearch = (query: string) => {
         console.log("Búsqueda realizada:", query)
         // Aquí puedes implementar la lógica de búsqueda
     }
-
-    const cites: any[] = []
 
     return (
         <div className="space-y-6 p-6 bg-white rounded-lg ">
@@ -19,9 +36,11 @@ export default function PatientsContent() {
                 placeholder="Buscar pacientes..."
                 className=""
             />
-            <TablePatients pacientes={cites}/>
-
-
+            {loading ? (
+                <p>Cargando pacientes...</p>
+            ) : (
+                <TablePatients pacientes={pacientes} />
+            )}
         </div>
     )
 }

@@ -176,7 +176,7 @@ class Appointment(SQLModel, table=True):
     )
     client_id: uuid.UUID = Field(foreign_key="clients.id")
     date_id: uuid.UUID = Field(foreign_key="dates.id")
-    status: AppointmentStatus = Field(default=AppointmentStatus.en_proceso , sa_column=Column("status", SQLAlchemyEnum(AppointmentStatus, name="appoitment_status")))
+    status: AppointmentStatus = Field(default=AppointmentStatus.en_proceso , sa_column=Column("status", SQLAlchemyEnum(AppointmentStatus, name="appoitment_status", values_callable=lambda x: [e.value for e in x])))
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime = Field(default_factory=datetime.now)
 

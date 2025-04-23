@@ -2,16 +2,26 @@
 
 import { Search } from "lucide-react"
 
-// Definición del tipo de objeto para los pacientes
-interface Paciente {
-    nombre: string
-    direccion: string
-    enTratamiento: boolean
+// Definición del tipo para los datos de la API
+interface ApiPatient {
+    user_id: string
+    id: string
+    user: {
+        email: string
+        id: string
+        personal_data: {
+            first_name: string
+            last_name: string
+            birth_date: string
+            phone_number: string
+            address: string
+        }
+    }
 }
 
 // Props del componente
 interface TablaPacientesProps {
-    pacientes: Paciente[]
+    pacientes: ApiPatient[]
 }
 
 export default function TablePatients({ pacientes = [] }: TablaPacientesProps) {
@@ -26,24 +36,18 @@ export default function TablePatients({ pacientes = [] }: TablaPacientesProps) {
                         <thead>
                         <tr className="border-b">
                             <th className="w-[40%] text-left p-3 text-gray-800">Nombre</th>
-                            <th className="w-[40%] text-left p-3 text-gray-800">Dirección</th>
-                            <th className="w-[20%] text-left p-3 text-gray-800">Estado</th>
+                            <th className="w-[30%] text-left p-3 text-gray-800">Dirección</th>
+                            <th className="w-[30%] text-left p-3 text-gray-800">Correo</th>
                         </tr>
                         </thead>
                         <tbody>
                         {pacientes.map((paciente, index) => (
                             <tr key={index} className="hover:bg-gray-100 border-b">
-                                <td className="font-medium p-3">{paciente.nombre}</td>
-                                <td className="p-3">{paciente.direccion}</td>
-                                <td className="p-3">
-                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                        paciente.enTratamiento
-                                            ? "bg-green-100 text-green-800"
-                                            : "bg-red-100 text-red-800"
-                                    }`}>
-                                        {paciente.enTratamiento ? "En tratamiento" : "Sin tratamiento"}
-                                    </span>
+                                <td className="font-medium p-3">
+                                    {`${paciente.user.personal_data.first_name} ${paciente.user.personal_data.last_name}`}
                                 </td>
+                                <td className="p-3">{paciente.user.personal_data.address}</td>
+                                <td className="p-3">{paciente.user.email}</td>
                             </tr>
                         ))}
                         </tbody>
