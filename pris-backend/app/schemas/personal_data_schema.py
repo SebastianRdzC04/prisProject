@@ -24,4 +24,3 @@ class PersonalDataUpdate(PersonalDataBase):
 class PersonalDataRead(PersonalDataBase):
     class Config:
         from_attributes = True
-        orm_mode = True

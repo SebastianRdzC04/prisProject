@@ -3,8 +3,10 @@ from fastapi import HTTPException
 from passlib.context import CryptContext
 
 from ..repositories.user_repository import UserRepository
-from ..db.models import User
+from ..repositories.client_repository import ClientRepository
+from ..db.models import User, Client
 from ..schemas.user_schema import UserRead
+from ..schemas.client_schema import ClientRead
 from ..schemas.auth_schema import LoginRequest, LoginResponse
 from ..config import security
 from ..schemas.auth_schema import RegisterRequest
@@ -12,10 +14,11 @@ from ..schemas.auth_schema import RegisterRequest
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 class AuthService:
-    def __init__(self, user_repository:UserRepository):
+    def __init__(self, user_repository:UserRepository, client_repository:ClientRepository):
         self.user_repository = user_repository
+        self.client_repository = client_repository
 
-    async def register(self, register_data:RegisterRequest) -> UserRead :
+    async def register(self, register_data:RegisterRequest) -> ClientRead :
         """
         Register a new user.
         """
@@ -29,7 +32,21 @@ class AuthService:
             password=password_hashed,
         )
 
-        return UserRead.from_orm(await self.user_repository.create_user(new_user))
+        user_created = await self.user_repository.create_user(new_user)
+        if not user_created:
+            raise HTTPException(status_code=500, detail="User creation failed")
+
+        client_existing = await self.client_repository.get_client_by_user_id(user_created.id)
+        if client_existing:
+            raise HTTPException(status_code=400, detail="User already has a client")
+
+        new_client = Client(
+            user_id=user_created.id
+        )
+        client_created = await self.client_repository.create_client(new_client)
+        if not client_created:
+            raise HTTPException(status_code=500, detail="Client creation failed")
+        return ClientRead.from_orm(client_created)
 
     async def login(self, login_data:LoginRequest) -> LoginResponse:
         """
@@ -47,6 +64,16 @@ class AuthService:
         token = security.create_access_token(payload)
 
         return LoginResponse(token=token)
+
+    async def validate_token(self, token:str) -> bool:
+        """
+        Validate the access token.
+        """
+        is_valid = security.verify_token(token)
+        if not is_valid:
+            raise HTTPException(status_code=401, detail="Invalid token")
+
+        return True
 
 
 

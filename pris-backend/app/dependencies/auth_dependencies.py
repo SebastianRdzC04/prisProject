@@ -3,10 +3,12 @@ from fastapi.params import Depends
 from ..repositories.user_repository import UserRepository
 from .user_dependencies import get_user_repository
 from ..services.auth_service import AuthService
+from ..repositories.client_repository import ClientRepository
+from .client_dependencies import get_client_repository
 
 
-def get_auth_service(user_repository: UserRepository = Depends(get_user_repository)) -> AuthService:
+def get_auth_service(user_repository: UserRepository = Depends(get_user_repository), client_repository:ClientRepository = Depends(get_client_repository)) -> AuthService:
     """
     Dependency to get the AuthService instance.
     """
-    return AuthService(user_repository=user_repository)
+    return AuthService(user_repository, client_repository)

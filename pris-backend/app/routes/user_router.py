@@ -2,11 +2,18 @@ from fastapi import APIRouter
 from fastapi.params import Depends
 
 from ..dependencies.user_dependencies import get_user_service
-from ..schemas.user_schema import UserRead, UserUpdate, UserWithPersonalData
+from ..schemas.user_schema import UserRead, UserUpdate, UserWithPersonalData, UserCreate
 from ..services.user_service import UserService
 from ..schemas.personal_data_schema import PersonalDataBase, PersonalDataRead, PersonalDataUpdate
 
 router = APIRouter()
+
+@router.post("/", response_model=UserRead)
+async def create_user(user:UserCreate, user_service:UserService = Depends(get_user_service)):
+    """
+    Endpoint to create a user.
+    """
+    return await user_service.create_user(user)
 
 @router.get("/all", response_model=list[UserRead])
 async def get_all_users(user_service:UserService = Depends(get_user_service)):

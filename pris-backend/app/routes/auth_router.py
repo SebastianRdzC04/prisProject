@@ -5,10 +5,11 @@ from ..schemas.auth_schema import RegisterRequest, LoginResponse, LoginRequest
 from ..dependencies.auth_dependencies import get_auth_service
 from ..services.auth_service import AuthService
 from ..schemas.user_schema import UserRead
+from ..schemas.client_schema import ClientRead
 
 router = APIRouter()
 
-@router.post("/register", response_model=UserRead)
+@router.post("/register", response_model=ClientRead)
 async def register_user(
     register_data: RegisterRequest,
     auth_service:AuthService = Depends(get_auth_service)
@@ -28,3 +29,13 @@ async def login_user(
     Authenticate a user.
     """
     return await auth_service.login(login_data)
+
+@router.post("/verify")
+async def verify_user(
+    token: str,
+    auth_service:AuthService = Depends(get_auth_service)
+):
+    """
+    Verify a user.
+    """
+    return await auth_service.validate_token(token)
