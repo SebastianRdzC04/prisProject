@@ -1,10 +1,13 @@
 from fastapi import HTTPException
+from passlib.context import CryptContext
 
 from ..db.models import User, PersonalData
 from ..repositories.user_repository import UserRepository
 from ..repositories.personal_data_repository import PersonalDataRepository
 from ..schemas.user_schema import UserCreate, UserRead, UserUpdate, UserWithPersonalData
-from ..schemas.personal_data_schema import PersonalDataBase, PersonalDataCreate, PersonalDataRead, PersonalDataUpdate
+from ..schemas.personal_data_schema import PersonalDataBase, PersonalDataRead, PersonalDataUpdate
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 class UserService:
@@ -14,48 +17,50 @@ class UserService:
         self.personal_data_repository = personal_data_repository
         self.user_repository = user_repository
 
-    async def create_user(self, user:UserCreate) -> UserRead:
+    async def create_user(self, user: UserCreate) -> UserRead:
+        password_hashed = pwd_context.hash(user.password)
+
         user_to_create = User(
             email=user.email,
-            password=user.password,
+            password=password_hashed,
         )
         created_user = await self.user_repository.create_user(user_to_create)
-        return UserRead.from_orm(created_user)
+        return UserRead.model_validate(created_user)
 
     async def get_user_by_id(self, user_id:str) -> UserRead:
         user = await self.user_repository.get_user_by_id(user_id)
         if not user:
             raise HTTPException(status_code=404, detail="Usuario no encontrado")
-        return UserRead.from_orm(user)
+        return UserRead.model_validate(user)
 
     async def get_user_by_email(self, email:str) -> UserRead:
         user = await self.user_repository.get_user_by_email(email)
         if not user:
             raise HTTPException(status_code=404, detail="Usuario no encontrado")
-        return UserRead.from_orm(user)
+        return UserRead.model_validate(user)
 
     async def delete_user(self, user_id:str) -> UserRead:
         user = await self.user_repository.get_user_by_id(user_id)
         if not user:
             raise HTTPException(status_code=404, detail="Usuario no encontrado")
         deleted_user = await self.user_repository.delete_user(user)
-        return UserRead.from_orm(deleted_user)
+        return UserRead.model_validate(deleted_user)
 
     async def get_all_users(self) -> list[UserRead]:
         users = await self.user_repository.get_all_users()
-        return [UserRead.from_orm(user) for user in users]
+        return [UserRead.model_validate(user) for user in users]
 
     async def update_user(self, user_id:str, user_update:UserUpdate) -> UserRead:
         user = await self.user_repository.get_user_by_id(user_id)
         if not user:
             raise HTTPException(status_code=404, detail="Usuario no encontrado")
 
-        user_data = user_update.dict(exclude_unset=True)
+        user_data = user_update.model_dump(exclude_unset=True)
         for key, value in user_data.items():
             setattr(user, key, value)
 
         updated_user = await self.user_repository.update_user(user)
-        return UserRead.from_orm(updated_user)
+        return UserRead.model_validate(updated_user)
 
     async def create_personal_data(self, user_id:str, personal_data:PersonalDataBase) -> PersonalDataRead:
         user = await self.user_repository.get_user_by_id(user_id)
@@ -71,17 +76,17 @@ class UserService:
         )
         created_personal_data = await self.personal_data_repository.create_personal_data(
             personal_data_to_create)
-        return PersonalDataRead.from_orm(created_personal_data)
+        return PersonalDataRead.model_validate(created_personal_data)
 
     async def get_user_with_personal_data(self, user_id:str) -> UserWithPersonalData:
         user = await self.user_repository.get_user_with_personal_data(user_id)
         if not user:
             raise HTTPException(status_code=404, detail="Usuario no encontrado")
-        return UserWithPersonalData.from_orm(user)
+        return UserWithPersonalData.model_validate(user)
 
     async def get_all_users_with_personal_data(self) -> list[UserWithPersonalData]:
         users = await self.user_repository.get_all_users_with_personal_data()
-        return [UserWithPersonalData.from_orm(user) for user in users]
+        return [UserWithPersonalData.model_validate(user) for user in users]
 
     async def update_personal_data(self, user_id:str, personal_data:PersonalDataUpdate) -> PersonalDataRead:
         user = await self.user_repository.get_user_by_id(user_id)
@@ -92,12 +97,12 @@ class UserService:
         if not personal_data_to_update:
             raise HTTPException(status_code=404, detail="Datos personales no encontrados")
 
-        personal_data_data = personal_data.dict(exclude_unset=True)
+        personal_data_data = personal_data.model_dump(exclude_unset=True)
         for key, value in personal_data_data.items():
             setattr(personal_data_to_update, key, value)
 
         updated_personal_data = await self.personal_data_repository.update_personal_data(personal_data_to_update)
-        return PersonalDataRead.from_orm(updated_personal_data)
+        return PersonalDataRead.model_validate(updated_personal_data)
 
 
 

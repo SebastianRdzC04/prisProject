@@ -23,7 +23,6 @@ class DateRead(DateBase):
 
     class Config:
         from_attributes = True
-        orm_mode = True
 
 class DateUpdate(DateBase):
     type: DateType | None = None

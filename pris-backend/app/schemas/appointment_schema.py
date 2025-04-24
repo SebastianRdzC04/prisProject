@@ -21,7 +21,6 @@ class AppointmentRead(AppointmentBase):
 
     class Config:
         from_attributes = True
-        orm_mode = True
 
 class AppointmentWithData(AppointmentRead):
     client_id: UUID

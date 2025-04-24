@@ -18,14 +18,14 @@ class AppointmentService:
         if not appointment:
             raise HTTPException(status_code=404, detail="Error al crear la cita")
 
-        return AppointmentRead.from_orm(appointment)
+        return AppointmentRead.model_validate(appointment)
 
     async def get_appointment(self, appointment_id:str) -> AppointmentWithData:
         appointment = await self.appointment_repository.get_appointment(appointment_id)
         if not appointment:
             raise HTTPException(status_code=404, detail="Cita no encontrada")
 
-        return AppointmentWithData.from_orm(appointment)
+        return AppointmentWithData.model_validate(appointment)
 
 
     async def get_all_appointments(self) -> list[AppointmentWithData]:
@@ -33,4 +33,4 @@ class AppointmentService:
         if not appointments:
             raise HTTPException(status_code=404, detail="No hay citas disponibles")
 
-        return [AppointmentWithData.from_orm(appointment) for appointment in appointments]
+        return [AppointmentWithData.model_validate(appointment) for appointment in appointments]

@@ -21,21 +21,21 @@ class DateService:
         if not date:
             raise HTTPException(status_code=404, detail="Error al crear la fecha")
 
-        return DateRead.from_orm(date)
+        return DateRead.model_validate(date)
 
     async def get_all_dates(self) -> list[DateWithClient]:
         dates = await self.date_repository.get_all_dates()
         if not dates:
             raise HTTPException(status_code=404, detail="No hay fechas disponibles")
 
-        return [DateWithClient.from_orm(date) for date in dates]
+        return [DateWithClient.model_validate(date) for date in dates]
 
     async def get_date(self, date_id:str) -> DateWithClient:
         date = await self.date_repository.get_date(date_id)
         if not date:
             raise HTTPException(status_code=404, detail="Fecha no encontrada")
 
-        return DateWithClient.from_orm(date)
+        return DateWithClient.model_validate(date)
 
     async def update_date(self, date_id:str, date_update:DateUpdate) -> DateRead:
         date = await self.date_repository.get_date(date_id)
@@ -43,7 +43,7 @@ class DateService:
             raise HTTPException(status_code=404, detail="Fecha no encontrada")
 
         date_data = date.dict(exclude_unset=True)
-        date_data.update(date_update.dict(exclude_unset=True))
+        date_data.update(date_update.model_dump(exclude_unset=True))
 
         for key, value in date_data.items():
             setattr(date, key, value)
@@ -52,7 +52,7 @@ class DateService:
         if not updated_date:
             raise HTTPException(status_code=404, detail="Error al actualizar la fecha")
 
-        return DateRead.from_orm(updated_date)
+        return DateRead.model_validate(updated_date)
 
 
 

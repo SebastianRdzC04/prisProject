@@ -34,3 +34,11 @@ class ClientRepository:
             )
         )
         return clients.scalars().all()
+
+    async def get_client_by_user_id(self, user_id: str):
+        client = await self.session.execute(
+            select(Client)
+            .where(Client.user_id == user_id)
+            .where(Client.is_on == True)
+        )
+        return client.scalars().first()
