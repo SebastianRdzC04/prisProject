@@ -35,6 +35,7 @@ interface Cita {
     fecha: Date | string
     hora: string
     status: string
+    tipo: string
 }
 
 // Props del componente
@@ -56,7 +57,8 @@ export default function TableCites({ citas = [] }: TablaCitasProps) {
         nombreCliente: `${cita.client.user.personal_data.first_name} ${cita.client.user.personal_data.last_name}`,
         fecha: cita.date,
         hora: cita.time,
-        status: cita.status
+        status: cita.status,
+        tipo: cita.type,
     }))
 
     return (
@@ -73,6 +75,7 @@ export default function TableCites({ citas = [] }: TablaCitasProps) {
                             <th className="w-[30%] text-left p-3 text-gray-800">Fecha</th>
                             <th className="w-[20%] text-left p-3 text-gray-800">Hora</th>
                             <th className="w-[20%] text-left p-3 text-gray-800">Estado</th>
+                            <th className="w-[20%] text-left p-3 text-gray-800">Tipo</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -82,6 +85,7 @@ export default function TableCites({ citas = [] }: TablaCitasProps) {
                                 <td className="p-3">{formatearFecha(cita.fecha)}</td>
                                 <td className="p-3">{cita.hora}</td>
                                 <td className="p-3">{cita.status}</td>
+                                <td className="p-3">{cita.tipo}</td>
                             </tr>
                         ))}
                         </tbody>
