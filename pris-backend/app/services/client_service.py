@@ -35,3 +35,10 @@ class ClientService:
 
         return [ClientWithData.model_validate(client) for client in clients]
 
+    async def get_client_by_user_id(self, user_id: str) -> ClientWithData:
+        client = await self.client_repository.get_client_by_user_id(user_id)
+        if not client:
+            raise HTTPException(status_code=404, detail="Cliente no encontrado")
+
+        return ClientWithData.model_validate(client)
+

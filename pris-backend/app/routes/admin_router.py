@@ -38,3 +38,14 @@ async def create_admin(
     """
 
     return await admin_service.create_admin(admin)
+
+@router.get("/user/{user_id}", response_model=AdminWithData)
+async def get_admin_by_user_id(
+    user_id: str,
+    admin_service: AdminService = Depends(get_admin_service)
+):
+    """
+    Get admin by user id.
+    """
+
+    return await admin_service.get_admin_by_user_id(user_id)

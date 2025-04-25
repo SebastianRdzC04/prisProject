@@ -40,5 +40,8 @@ class ClientRepository:
             select(Client)
             .where(Client.user_id == user_id)
             .where(Client.is_on == True)
+            .options(
+                selectinload(Client.user).selectinload(User.personal_data)
+            )
         )
         return client.scalars().first()

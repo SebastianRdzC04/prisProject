@@ -28,3 +28,10 @@ class AdminService:
             raise HTTPException(status_code=404, detail="No hay administradores disponibles")
 
         return [AdminWithData.model_validate(admin) for admin in admins]
+
+    async def get_admin_by_user_id(self, user_id: str) -> AdminWithData:
+        admin = await self.admin_repository.get_admin_by_user_id(user_id)
+        if not admin:
+            raise HTTPException(status_code=404, detail="Cliente no encontrado")
+
+        return AdminWithData.model_validate(admin)

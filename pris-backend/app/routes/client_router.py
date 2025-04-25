@@ -31,3 +31,11 @@ async def create_client(user_id: ClientCreate, client_service: ClientService = D
     # Assuming you have a client_service instance available
     return await client_service.create_client(str(user_id.user_id))
 
+@router.get("/user/{user_id}", response_model=ClientWithData)
+async def get_client_by_user_id(user_id: str, client_service: ClientService = Depends(get_client_service)):
+    """
+    Get client by user ID
+    """
+    # Assuming you have a client_service instance available
+    return await client_service.get_client_by_user_id(user_id)
+
