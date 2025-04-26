@@ -1,5 +1,7 @@
 ---
 // Header.astro
+import AppointmentModal from '../react-components/AppointmentModal';
+import ButtonDate from '../react-components/components/ButtonDate';
 
 // Inicialmente no sabemos si el usuario está autenticado
 // Esto se verificará en el cliente mediante JavaScript
@@ -15,12 +17,16 @@ const isLoggedIn = false;
                 </a>
             </div>
             <div class="flex items-center gap-4">
-                <button class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition-colors">
-                    Agendar nueva cita
-                </button>
+                <ButtonDate client:load />
+
+                <!-- Indicador de carga -->
+                <div id="loadingIndicator" class="flex items-center">
+                    <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-800"></div>
+                    <span class="ml-2">Cargando...</span>
+                </div>
 
                 <!-- Botón de Iniciar sesión (se mostrará cuando no hay token) -->
-                <button id="loginButton" class="px-4 py-2 border border-gray-800 text-gray-800 rounded hover:bg-gray-100 transition-colors">
+                <button id="loginButton" class="hidden px-4 py-2 border border-gray-800 text-gray-800 rounded hover:bg-gray-100 transition-colors">
                     Iniciar sesión
                 </button>
                 
@@ -49,113 +55,90 @@ const isLoggedIn = false;
 </header>
 
 <script>
-    // Función para decodificar el token JWT
-    function parseJwt(token) {
-        try {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const payload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
+    import { 
+        checkAuthentication, 
+        isAdmin,
+        logout 
+    } from '../../scripts/security';
 
-            return JSON.parse(payload);
-        } catch (e) {
-            console.error('Error decoding token:', e);
-            return null;
-        }
-    }
+    // Elementos del DOM
+    const loginButton = document.getElementById('loginButton');
+    const profileSection = document.getElementById('profileSection');
+    const loadingIndicator = document.getElementById('loadingIndicator');
 
     // Verificar autenticación desde localStorage
-    async function checkAuthentication() {
-        const token = localStorage.getItem('token');
+    async function verifyAndUpdateUI() {
+        // Mostrar indicador de carga y ocultar los otros elementos
+        showLoadingState();
         
-        if (!token) {
-            showLoginButton();
-            return;
-        }
-
         try {
-            // Verificar si el token es válido
-            const verifyResponse = await fetch(`https://apipris.kysedomi.lat/auth/verify?token=${token}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-            });
-            console.log('verifyResponse', verifyResponse);
+            const userData = await checkAuthentication();
             
-            if (verifyResponse.status !== 200) {
-                // Token inválido, eliminar y mostrar botón de login
-                localStorage.removeItem('token');
-                showLoginButton();
+            if (!userData) {
+                hideLoadingShowLogin();
                 return;
             }
             
-            // Token válido, extraer información
-            const tokenPayload = parseJwt(token);
-            
-            if (!tokenPayload || !tokenPayload.id) {
-                console.error('Token payload is invalid');
-                showLoginButton();
-                return;
+            if (isAdmin()) {
+                console.log('usuario administrador');
+                const profileMenuElement = document.getElementById('profileMenu');
+                if (profileMenuElement) {
+                    const separator = profileMenuElement.querySelector('hr');
+                    if (separator) {
+                        const dashboardLink = document.createElement('a');
+                        dashboardLink.href = "/home";
+                        dashboardLink.className = "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100";
+                        dashboardLink.textContent = "Dashboard";
+                        profileMenuElement.insertBefore(dashboardLink, separator);
+                    }
+                }
             }
             
-            const userId = tokenPayload.id;
-            const isAdmin = tokenPayload.is_admin === true;
-            
-            // Obtener información del usuario según su rol
-            const endpoint = isAdmin 
-                ? `https://apipris.kysedomi.lat/admin/${userId}` 
-                : `https://apipris.kysedomi.lat/clients/${userId}`;
-                
-            const userResponse = await fetch(endpoint);
-            
-            if (userResponse.status === 200) {
-                const userData = await userResponse.json();
-                updateUserProfile(userData);
-            } else {
-                console.error('Failed to fetch user data');
-                showLoginButton();
-            }
+            hideLoadingShowProfile(userData);
         } catch (error) {
-            console.error('Authentication check failed:', error);
-            showLoginButton();
+            console.error('Error verificando autenticación:', error);
+            hideLoadingShowLogin();
         }
     }
     
-    // Actualizar perfil de usuario en la interfaz
-    function updateUserProfile(userData) {
+    // Mostrar estado de carga
+    function showLoadingState() {
+        if (loadingIndicator) loadingIndicator.classList.remove('hidden');
+        if (loginButton) loginButton.classList.add('hidden');
+        if (profileSection) profileSection.classList.add('hidden');
+    }
+    
+    // Ocultar carga y mostrar botón de login
+    function hideLoadingShowLogin() {
+        if (loadingIndicator) loadingIndicator.classList.add('hidden');
+        if (loginButton) loginButton.classList.remove('hidden');
+        if (profileSection) profileSection.classList.add('hidden');
+    }
+    
+    // Ocultar carga y mostrar perfil
+    function hideLoadingShowProfile(userData) {
         const userName = document.getElementById('userName');
-        const loginButton = document.getElementById('loginButton');
-        const profileSection = document.getElementById('profileSection');
         
         // Extraer nombre del usuario
         const firstName = userData.user?.personal_data?.first_name || 'Usuario';
         const lastName = userData.user?.personal_data?.last_name || '';
         
         // Actualizar nombre en la interfaz
-        userName.textContent = `${firstName} ${lastName}`;
+        if (userName) userName.textContent = `${firstName} ${lastName}`;
         
-        // Mostrar sección de perfil y ocultar botón de login
-        loginButton.classList.add('hidden');
-        profileSection.classList.remove('hidden');
-    }
-    
-    // Mostrar botón de login y ocultar perfil
-    function showLoginButton() {
-        const loginButton = document.getElementById('loginButton');
-        const profileSection = document.getElementById('profileSection');
-        
-        loginButton.classList.remove('hidden');
-        profileSection.classList.add('hidden');
+        // Mostrar sección de perfil y ocultar otros elementos
+        if (loadingIndicator) loadingIndicator.classList.add('hidden');
+        if (loginButton) loginButton.classList.add('hidden');
+        if (profileSection) profileSection.classList.remove('hidden');
     }
     
     // Ejecutar verificación al cargar la página
-    document.addEventListener('DOMContentLoaded', checkAuthentication);
+    document.addEventListener('DOMContentLoaded', verifyAndUpdateUI);
     
     // Script para manejar el menú desplegable del perfil
     const profileButton = document.getElementById('profileButton');
     const profileMenu = document.getElementById('profileMenu');
 
-    const loginButton = document.getElementById('loginButton');
     if (loginButton) {
         loginButton.addEventListener('click', (e) => {
             e.preventDefault();
@@ -181,8 +164,9 @@ const isLoggedIn = false;
     if (logoutButton) {
         logoutButton.addEventListener('click', (e) => {
             e.preventDefault();
-            localStorage.removeItem('token');
-            showLoginButton();
+            logout();
+            hideLoadingShowLogin();
         });
     }
 </script>
+

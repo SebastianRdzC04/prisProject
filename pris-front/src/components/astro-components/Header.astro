@@ -1,19 +1,19 @@
 ---
-// Header.astro
+import AppointmentModal from '../react-components/AppointmentModal';
+import ButtonDate from '../react-components/components/ButtonDate';
 ---
 
-<header class="w-full bg-white text-gray-800 shadow-lg fixed top-0 left-0">
-    <div class="container mx-auto px-4 py-4">
+<header class="w-full bg-white text-gray-800 shadow-md fixed top-0 left-0 z-40">
+    <div class="container mx-auto px-6 py-4">
         <div class="flex items-center justify-between">
             <div>
-                <a href="/" class="text-xl font-bold text-gray-800">
+                <a href="/" class="text-xl font-bold text-gray-800 hover:text-blue-600 transition-colors">
                     MediConsulta
                 </a>
             </div>
             <div>
-                <button class=" px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition-colors">
-                    Agendar nueva cita
-                </button>
+                <ButtonDate client:load />
+                <AppointmentModal client:load />
             </div>
         </div>
     </div>

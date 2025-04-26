@@ -1,5 +1,13 @@
 ---
 // Sidebar.astro
+
+interface Props {
+    userName?: string; // Hacemos la prop opcional
+}
+
+// Valor predeterminado si no se proporciona userName
+const { userName = "Cargando..." } = Astro.props;
+
 ---
 
 <aside class="h-[calc(100vh-64px)] w-56 bg-white shadow-lg fixed left-0 top-16 z-10">
@@ -9,7 +17,7 @@
         <nav class="flex-1 overflow-y-auto py-4">
             <ul class="space-y-2 px-4">
                 <li>
-                    <a href="/" class="flex items-center p-3 text-gray-800 hover:bg-gray-100 rounded-lg transition-colors group">
+                    <a href="/home" class="flex items-center p-3 text-gray-800 hover:bg-gray-100 rounded-lg transition-colors group">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-600 group-hover:text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                         </svg>
@@ -42,7 +50,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center p-3 text-gray-800 hover:bg-gray-100 rounded-lg transition-colors group">
+                    <a href="/" class="flex items-center p-3 text-gray-800 hover:bg-gray-100 rounded-lg transition-colors group">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-600 group-hover:text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -63,7 +71,7 @@
                         </svg>
                     </div>
                     <div class="ml-3">
-                        <p class="text-sm font-medium text-black">Sebas</p>
+                        <p id="userNameDisplay" class="text-sm font-medium text-black">{userName}</p>
                         <p class="text-xs text-gray-500">Administrator</p>
                     </div>
                 </div>
@@ -86,7 +94,9 @@
     </div>
 </aside>
 
+
 <script>
+    // Script existente para el logout
     document.addEventListener('DOMContentLoaded', () => {
         const logoutBtn = document.getElementById('logoutBtn');
         const logoutConfirm = document.getElementById('logoutConfirm');
@@ -94,31 +104,95 @@
         const cancelLogout = document.getElementById('cancelLogout');
 
         if (logoutBtn && logoutConfirm && confirmLogout && cancelLogout) {
-            // Mostrar/ocultar confirmación
+            // Código de logout existente...
             logoutBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 logoutConfirm.classList.toggle('hidden');
             });
 
-            // Cancelar logout
             cancelLogout.addEventListener('click', () => {
                 logoutConfirm.classList.add('hidden');
             });
 
-            // Confirmar logout
             confirmLogout.addEventListener('click', () => {
                 localStorage.removeItem('token');
-                window.location.href = '/authenticate';
+                window.location.href = '/';
             });
 
-            // Cerrar al hacer clic fuera
             document.addEventListener('click', (event) => {
-                if (!logoutConfirm.contains(event.target) &&
-                    !logoutBtn.contains(event.target) &&
-                    !logoutConfirm.classList.contains('hidden')) {
-                    logoutConfirm.classList.add('hidden');
+                // Corregimos los errores de tipo aquí
+                if (event.target instanceof Node) {
+                    if (!logoutConfirm.contains(event.target) &&
+                        !logoutBtn.contains(event.target) &&
+                        !logoutConfirm.classList.contains('hidden')) {
+                        logoutConfirm.classList.add('hidden');
+                    }
                 }
             });
         }
+
+        // Nuevo código para cargar el nombre de usuario
+        loadUserData();
     });
+
+    // Función para decodificar JWT
+    function parseJwt(token) {
+        try {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const payload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+
+            return JSON.parse(payload);
+        } catch (e) {
+            console.error('Error decodificando token:', e);
+            return null;
+        }
+    }
+
+    // Función para cargar los datos del usuario
+    async function loadUserData() {
+        const userNameDisplay = document.getElementById('userNameDisplay');
+        if (!userNameDisplay) return;
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.error('No se encontró token de autenticación');
+            return;
+        }
+
+        // Decodificar el token para obtener el ID
+        const tokenData = parseJwt(token);
+        if (!tokenData || !tokenData.id) {
+            console.error('Token inválido o sin ID');
+            return;
+        }
+
+        try {
+            // Hacer la petición a la API
+            const response = await fetch(`https://apipris.kysedomi.lat/users/${tokenData.id}/personal_data`);
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
+
+
+            const userData = await response.json();
+
+            console.log('userData', userData);
+
+            // Actualizar el nombre en la interfaz
+            if (userData && userData.personal_data) {
+                const { first_name, last_name } = userData.personal_data;
+                const fullName = `${first_name || ''} ${last_name || ''}`.trim();
+
+                if (fullName) {
+                    userNameDisplay.textContent = fullName;
+                }
+            }
+        } catch (error) {
+            console.error('Error al cargar datos del usuario:', error);
+        }
+    }
 </script>
