@@ -1,0 +1,85 @@
+---
+import LoginForm from '../components/react-components/pages/LoginForm'
+import RegisterForm from '../components/react-components/pages/RegisterComponent';
+import LayoutAuth from "../layouts/LayoutAuth.astro";
+---
+
+<LayoutAuth title="Autenticación">
+    <div class="flex min-h-screen items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="w-full max-w-md bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="p-6">
+                <header class="text-center mb-8">
+                    <h1 class="text-2xl font-bold text-gray-800">MediConsulta</h1>
+                    <p class="mt-2 text-gray-600">Bienvenido a nuestro portal de acceso</p>
+                </header>
+
+                <div class="form-container">
+                    <div class="flex border-b border-gray-200 mb-6">
+                        <button id="login-tab" class="tab active flex-1 py-3 font-medium text-center focus:outline-none">Iniciar Sesión</button>
+                        <button id="register-tab" class="tab flex-1 py-3 font-medium text-center focus:outline-none">Registrarse</button>
+                    </div>
+
+                    <div id="login-form" class="form-panel active">
+                        <LoginForm client:load />
+                    </div>
+
+                    <div id="register-form" class="form-panel">
+                        <RegisterForm client:load />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</LayoutAuth>
+
+<style>
+    .tab {
+        color: #6b7280;
+    }
+
+    .tab.active {
+        color: #3b82f6;
+        border-bottom: 2px solid #3b82f6;
+    }
+
+    .form-panel {
+        display: none;
+    }
+
+    .form-panel.active {
+        display: block;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Verificar si hay token y redirigir al inicio si existe
+        const token = localStorage.getItem('token');
+        if (token) {
+            window.location.href = '/';
+            return;
+        }
+
+        // Script para manejar las pestañas
+        const loginTab = document.getElementById('login-tab');
+        const registerTab = document.getElementById('register-tab');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+
+        if (loginTab && registerTab && loginForm && registerForm) {
+            loginTab.addEventListener('click', () => {
+                loginTab.classList.add('active');
+                registerTab.classList.remove('active');
+                loginForm.classList.add('active');
+                registerForm.classList.remove('active');
+            });
+
+            registerTab.addEventListener('click', () => {
+                registerTab.classList.add('active');
+                loginTab.classList.remove('active');
+                registerForm.classList.add('active');
+                loginForm.classList.remove('active');
+            });
+        }
+    });
+</script>

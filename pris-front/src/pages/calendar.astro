@@ -1,0 +1,28 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CalendarComponent from "../components/react-components/components/CalendarComponent.tsx";
+import DateSpan from "../components/astro-components/DateSpan.astro";
+---
+
+<Layout title="Calendario">
+    <main class="border mt-24 m-7 p-5 rounded-md border-gray-800">
+        <div class="flex flex-wrap justify-between">
+            <div>
+                <h2 class="text-2xl">Calendario</h2>
+                <p>Gestiona tus fechas importantes de una manera mas comoda</p>
+            </div>
+            <div class="flex text-center items-center content-center ">
+                <DateSpan/>
+            </div>
+        </div>
+
+        <div class="mt-12">
+            <CalendarComponent
+                    client:load
+                    closedDays={[]}
+                    possibleDays={[]}
+                    disabledDays={[]}
+            />
+        </div>
+    </main>
+</Layout>

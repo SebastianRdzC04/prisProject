@@ -1,0 +1,20 @@
+---
+import AppointmentModal from '../react-components/AppointmentModal';
+import ButtonDate from '../react-components/components/ButtonDate';
+---
+
+<header class="w-full bg-white text-gray-800 shadow-md fixed top-0 left-0 z-40">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <a href="/" class="text-xl font-bold text-gray-800 hover:text-blue-600 transition-colors">
+                    MediConsulta
+                </a>
+            </div>
+            <div>
+                <ButtonDate client:load />
+                <AppointmentModal client:load />
+            </div>
+        </div>
+    </div>
+</header>
