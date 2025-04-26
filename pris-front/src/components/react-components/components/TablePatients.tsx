@@ -44,10 +44,12 @@ export default function TablePatients({ pacientes = [] }: TablaPacientesProps) {
                         {pacientes.map((paciente, index) => (
                             <tr key={index} className="hover:bg-gray-100 border-b">
                                 <td className="font-medium p-3">
-                                    {`${paciente.user.personal_data.first_name} ${paciente.user.personal_data.last_name}`}
+                                    {paciente?.user?.personal_data ? 
+                                      `${paciente.user.personal_data.first_name || ''} ${paciente.user.personal_data.last_name || ''}` : 
+                                      'Sin nombre'}
                                 </td>
-                                <td className="p-3">{paciente.user.personal_data.address}</td>
-                                <td className="p-3">{paciente.user.email}</td>
+                                <td className="p-3">{paciente?.user?.personal_data?.address || 'Sin dirección'}</td>
+                                <td className="p-3">{paciente?.user?.email || 'Sin correo'}</td>
                             </tr>
                         ))}
                         </tbody>
