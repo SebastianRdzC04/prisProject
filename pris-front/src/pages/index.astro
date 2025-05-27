@@ -1,11 +1,12 @@
 ---
 import LayoutPublic from "../layouts/LayoutPublic.astro";
+import { Image } from "astro:assets";
 ---
 
 <LayoutPublic title="Casita">
-    <div class="flex flex-col">
+    <div class="flex flex-col items-center">
         <main class="flex-1">
-            <section id="inicio" class="w-full py-12 md:py-24 lg:py-28">
+            <section id="inicio" class="w-full py-12 md:py-12 lg:py-28">
                 <div class="container px-4 md:px-6">
                     <div class="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2">
                         <div class="flex flex-col justify-center space-y-4">
@@ -25,13 +26,15 @@ import LayoutPublic from "../layouts/LayoutPublic.astro";
                                 <a href="#contacto" class="inline-flex items-center justify-center rounded-md border border-input bg-background shadow-sm px-4 py-2 text-sm font-medium">Contactar</a>
                             </div>
                         </div>
-                        <div class="mx-auto aspect-video overflow-hidden rounded-xl object-cover">
-                            <img
-                                    src="/images.jpeg"
-                                    width="800"
-                                    height="550"
-                                    alt="Consultorio médico moderno"
-                                    class="mx-auto h-full w-full rounded-xl object-cover"
+                        <div class="flex justify-center">
+                            <Image
+                                src="/welcome/waos.jpeg" 
+                                width={400}
+                                height={300}
+                                alt="Consultorio médico moderno"
+                                class="rounded-xl self-center object-cover"
+                                format="avif" 
+                                quality={80}
                             />
                         </div>
                     </div>
@@ -44,7 +47,7 @@ import LayoutPublic from "../layouts/LayoutPublic.astro";
                         <div class="space-y-2">
                             <h2 class="text-3xl font-bold tracking-tighter md:text-4xl">Nuestros Servicios</h2>
                             <p class="max-w-[900px] text-muted-foreground md:text-xl">
-                                Ofrecemos una amplia gama de servicios médicos para cuidar de su salud
+                                Ofrecemos una amplia y especializada gama de servicios médicos para cuidar de su salud.
                             </p>
                         </div>
                     </div>
@@ -110,32 +113,46 @@ import LayoutPublic from "../layouts/LayoutPublic.astro";
                 <div class="container px-4 md:px-6">
                     <div class="flex flex-col items-center justify-center space-y-4 text-center">
                         <div class="space-y-2">
-                            <h2 class="text-3xl font-bold tracking-tighter md:text-4xl">Nuestras Instalaciones</h2>
+                            <h2 class="text-3xl font-bold tracking-tighter md:text-4xl">C O N O C E N O S</h2>
                             <p class="max-w-[900px] text-muted-foreground md:text-xl">
-                                Conozca nuestro moderno consultorio diseñado para su comodidad
+                                Conoce nuestro gran equipo de trabajo y los diferentes servicios que ofrecemos para cuidar de tu salud y bienestar.
                             </p>
                         </div>
                     </div>
                     <div class="mx-auto grid max-w-5xl gap-6 py-12 md:grid-cols-2 lg:grid-cols-3">
                         <div class="overflow-hidden rounded-lg">
-                            <img
-                                    src="/images.jpeg"
-                                    width="600"
-                                    height="400"
-                                    alt="Sala de espera"
-                                    class="aspect-[4/3] h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                            <Image
+                                src="/welcome/Inicio.jpeg"
+                                width={600}
+                                height={600}
+                                alt="Acupuntura BIORA"
+                                class="h-full w-full object-cover"
+                                format="avif"
+                                quality={80}
                             />
                         </div>
                         <div class="overflow-hidden rounded-lg">
-                            <img
-                                    src="/images.jpeg"
-                                    width="600"
-                                    height="400"
-                                    alt="Consultorio principal"
-                                    class="aspect-[4/3] h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                            <Image
+                                src="/welcome/otracosa.jpeg"
+                                width={600}
+                                height={600}
+                                alt="Equipo BIORA"
+                                class="h-full w-full object-cover"
+                                format="avif"
+                                quality={80}
                             />
                         </div>
-                        <!-- ...existing code for other gallery images... -->
+                        <div class="overflow-hidden rounded-lg">
+                            <Image
+                                src="/welcome/querollo.jpeg"
+                                width={600}
+                                height={600}
+                                alt="Tratamiento de ansiedad"
+                                class="h-full w-full object-cover"
+                                format="avif"
+                                quality={80}
+                            />
+                        </div>
                     </div>
                 </div>
             </section>
@@ -155,7 +172,7 @@ import LayoutPublic from "../layouts/LayoutPublic.astro";
                                 Agendar Cita Online
                             </a>
                             <p class="text-sm text-muted-foreground">
-                                O llámenos al{" "}
+                                O contacta al{" "}
                                 <a href="tel:+123456789" class="font-medium underline underline-offset-4">
                                     +123 456 789
                                 </a>
@@ -192,13 +209,7 @@ import LayoutPublic from "../layouts/LayoutPublic.astro";
                     </div>
                     <div class="rounded-lg border bg-card p-6 shadow-sm">
                         <div class="aspect-video overflow-hidden rounded-lg">
-                            <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.952912260219!2d3.375295414770757!3d6.5276316452784755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8b2ae68280c1%3A0xdc9e87a367c3d9cb!2sLagos!5e0!3m2!1sen!2sng!4v1567723392506!5m2!1sen!2sng"
-                                    title="Ubicación del consultorio"
-                                    class="h-full w-full border-0"
-                                    allowfullscreen
-                                    loading="lazy"
-                            ></iframe>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3601.0448228247697!2d-103.37994952562842!3d25.503551619225973!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x868fdd007d8c35d7%3A0x2a446b7e64fca622!2sQuinta%20%22El%20Roble%22!5e0!3m2!1ses!2smx!4v1748315513545!5m2!1ses!2smx" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
                 </div>
