@@ -128,11 +128,7 @@ const DateForm: React.FC = () => {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {fetchingClientId && (
-          <div className="mb-4 p-3 bg-blue-50 border border-blue-200 text-blue-700 rounded-lg">
-            Cargando información del cliente...
-          </div>
-        )}
+        
 
         <div className="space-y-2">
           <label htmlFor="type" className="block text-sm font-medium text-gray-700">

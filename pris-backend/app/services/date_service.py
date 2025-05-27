@@ -54,6 +54,13 @@ class DateService:
 
         return DateRead.model_validate(updated_date)
 
+    async def get_dates_by_client(self, client_id:str) -> list[DateWithClient]:
+        dates = await self.date_repository.get_dates_by_client(client_id)
+        if not dates:
+            raise HTTPException(status_code=404, detail="No hay fechas disponibles para este cliente")
+
+        return [DateWithClient.model_validate(date) for date in dates]
+
 
 
 

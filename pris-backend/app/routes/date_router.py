@@ -37,6 +37,12 @@ async def update_date(date_id: str, date_update: DateUpdate, date_service: DateS
     """
     return await date_service.update_date(date_id, date_update)
 
+@router.get("/client/{client_id}", response_model=list[DateWithClient])
+async def get_dates_by_client(client_id: str, date_service: DateService = Depends(get_date_service)):
+    """
+    Get all dates for a specific client
+    """
+    return await date_service.get_dates_by_client(client_id)
 
 
 
