@@ -69,7 +69,7 @@ const ButtonDate: React.FC = () => {
       <button 
         onClick={handleClick} 
         disabled={loading}
-        className={`px-4 py-2 ${loading ? 'bg-gray-400' : 'bg-gray-800 hover:bg-gray-700'} text-white rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 transition-colors`}
+        className={`px-4 py-2 ${loading ? 'bg-gray-400' : 'bg-[#44c7d7] hover:bg-[#4dbed5]'} text-[#00343a] rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 transition-colors`}
       >
         {loading ? 'Cargando...' : 'Agendar nueva cita'}
       </button>
