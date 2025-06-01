@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css'
 import HeaderPublic from "../components/astro-components/HeaderPublic.astro";
+import FooterPublic from "../components/astro-components/FooterPublic.astro";
 
 interface Props {
     title: string;
@@ -19,11 +20,12 @@ const { title } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
 </head>
-<body class="bg-[#faf9f5]">
-<HeaderPublic/>
-<div class="pt-20">
-    <slot />
-</div>
+<body class="bg-[#faf9f5] flex flex-col min-h-screen">
+    <HeaderPublic/>
+    <div class="pt-20 flex-grow">
+        <slot />
+    </div>
+    <FooterPublic />
 </body>
 </html>
 

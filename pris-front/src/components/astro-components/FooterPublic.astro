@@ -1,0 +1,170 @@
+---
+// FooterPublic.astro
+const currentYear = new Date().getFullYear();
+---
+
+<footer id="contacto" class="bg-gradient-to-br from-[#44c7d7] to-[#76c86e] text-white pt-12 pb-6 mt-16">
+  <div class="container mx-auto px-4 md:px-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <!-- Logo and Description -->
+      <div class="space-y-4">
+        <h3 class="text-2xl font-bold tracking-tight">BIORA</h3>
+        <p class="text-white/80 max-w-xs">
+          Medicina natural y acupuntura para el bienestar integral de toda tu familia en un ambiente acogedor y profesional.
+        </p>
+      </div>
+      
+      <!-- Contact Information -->
+      <div class="space-y-4">
+        <h3 class="text-xl font-semibold">Contacto</h3>
+        <ul class="space-y-3 text-white/80">
+          <li class="flex items-start">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+            </svg>
+            <span>(871) 123-4567</span>
+          </li>
+          <li class="flex items-start">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            </svg>
+            <span>contacto@bioramedicina.com</span>
+          </li>
+          <li class="flex justify-between">
+            <div class="flex justify-between w-3/4 pt-2">
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="hover:text-white text-white/80 transition-colors">
+                    <span class="sr-only">Facebook</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path d="M9.19795 21.5H13.198V13.4901H16.8021L17.198 9.50977H13.198V7.5C13.198 6.94772 13.6457 6.5 14.198 6.5H17.198V2.5H14.198C11.4365 2.5 9.19795 4.73858 9.19795 7.5V9.50977H7.19795L6.80206 13.4901H9.19795V21.5Z"></path>
+                    </svg>
+                </a>
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="hover:text-white text-white/80 transition-colors">
+                    <span class="sr-only">Instagram</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="hover:text-white text-white/80 transition-colors">
+                    <span class="sr-only">Twitter</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84 0 0 0 .497-3.753c0-.249 1.51-2.772 1.818-4.013v-.001z" />
+                    </svg>
+                </a>
+                <a href="https://wa.me/5218711234567" target="_blank" rel="noopener noreferrer" class="hover:text-white text-white/80 transition-colors">
+                    <span class="sr-only">WhatsApp</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                    </svg>
+                </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Hours -->
+      <div class="space-y-4">
+        <h3 class="text-xl font-semibold">Horario</h3>
+        <ul class="space-y-2 text-white/80">
+          <li class="flex justify-between">
+            <span>Lunes - Viernes</span>
+            <span>8:00 AM - 6:00 PM</span>
+          </li>
+          <li class="flex justify-between">
+            <span>Sábado</span>
+            <span>8:00 AM - 2:00 PM</span>
+          </li>
+          <li class="flex justify-between">
+            <span>Domingo</span>
+            <span>Cerrado</span>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Newsletter/Contact Form -->
+      <div class="space-y-4">
+        <h3 class="text-xl font-semibold">Mantente Informado</h3>
+        <p class="text-white/80">Suscríbete a nuestro boletín para recibir información sobre promociones y consejos de salud.</p>
+        <form class="flex flex-col space-y-2">
+          <input 
+            type="email" 
+            placeholder="Tu correo electrónico" 
+            class="px-4 py-2 rounded bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/50"
+            required
+          />
+          <button 
+            type="submit" 
+            class="px-4 py-2 bg-white text-[#44c7d7] font-medium rounded hover:bg-white/90 transition-colors">
+            Suscribirse
+          </button>
+        </form>
+      </div>
+    </div>
+    
+    <div class="mt-12 pt-6 border-t border-white/20 text-center text-white/60">
+      <p>&copy; {currentYear} BIORA Medicina Natural. Todos los derechos reservados.</p>
+    </div>
+  </div>
+  
+  <!-- Scroll to top button -->
+  <button 
+    id="scrollToTop"
+    aria-label="Volver arriba"
+    class="fixed bottom-6 right-6 p-2 rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 transition-all shadow-lg opacity-0 invisible"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+    </svg>
+  </button>
+</footer>
+
+<script>
+  // Scroll to top button functionality
+  const scrollToTopButton = document.getElementById('scrollToTop');
+  
+  if (scrollToTopButton) {
+    // Show button when scrolling down
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollToTopButton.classList.remove('opacity-0', 'invisible');
+        scrollToTopButton.classList.add('opacity-100', 'visible');
+      } else {
+        scrollToTopButton.classList.add('opacity-0', 'invisible');
+        scrollToTopButton.classList.remove('opacity-100', 'visible');
+      }
+    });
+
+    // Scroll to top on click
+    scrollToTopButton.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
+  
+  // Handle form submission (prevent default for now)
+  const form = document.querySelector('footer form');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Display confirmation message
+      const email = form.querySelector('input[type="email"]').value;
+      alert(`Gracias por suscribirte con: ${email}`);
+      form.reset();
+    });
+  }
+  
+  // Make smooth scrolling work for the contact links
+  document.addEventListener('DOMContentLoaded', () => {
+    const contactLinks = document.querySelectorAll('a[href="#contacto"]');
+    contactLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const contactElement = document.getElementById('contacto');
+        if (contactElement) {
+          contactElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  });
+</script>

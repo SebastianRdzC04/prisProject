@@ -1,4 +1,5 @@
 ---
+import ButtonDate from "../components/react-components/components/ButtonDate";
 import LayoutPublic from "../layouts/LayoutPublic.astro";
 import { Image } from "astro:assets";
 ---
@@ -20,10 +21,7 @@ import { Image } from "astro:assets";
                                 </p>
                             </div>
                             <div class="flex flex-col gap-3 min-[400px]:flex-row">
-                                <a href="#agendar" class="inline-flex items-center justify-center rounded-md bg-[#44c7d7] hover:bg-[#44c7d7]/90 text-white shadow-md px-6 py-3 text-sm font-medium transition-all">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                                    Agendar Cita
-                                </a>
+                                <ButtonDate client:load />
                                 <a href="#contacto" class="inline-flex items-center justify-center rounded-md border-2 border-[#76c86e] bg-transparent hover:bg-[#76c86e]/10 text-[#76c86e] shadow-sm px-6 py-3 text-sm font-medium transition-all">Contactar</a>
                             </div>
                         </div>
@@ -261,8 +259,8 @@ import { Image } from "astro:assets";
                                         </div>
                                         <div>
                                             <p class="font-medium text-slate-800">Dirección:</p>
-                                            <p class="text-slate-600">Av. Principal #1234, Col. Centro</p>
-                                            <p class="text-slate-600">Torreón, Coahuila, México</p>
+                                            <p class="text-slate-600">Aquiles Serdán 52, Zona Centro, 35150</p>
+                                            <p class="text-slate-600">Lerdo, Dgo. México</p>
                                         </div>
                                     </div>
                                     <div class="flex items-start space-x-4">
@@ -284,16 +282,7 @@ import { Image } from "astro:assets";
                             <div class="rounded-xl overflow-hidden shadow-lg border-4 border-white relative">
                                 <div class="absolute -left-4 -top-4 w-16 h-16 rounded-full bg-[#76c86e]/20 -z-10"></div>
                                 <div class="absolute -right-4 -bottom-4 w-24 h-24 rounded-full bg-[#44c7d7]/20 -z-10"></div>
-                                <iframe 
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3599.429833907505!2d-103.38181432562646!3d25.557362617020498!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x868fdb3bad2dd32d%3A0xbeae88faaa71a002!2sConcretos%20Ricasa%20Torre%C3%B3n!5e0!3m2!1ses!2smx!4v1748448511947!5m2!1ses!2smx" 
-                                    width="100%" 
-                                    height="450" 
-                                    style="border:0;" 
-                                    allowfullscreen="" 
-                                    loading="lazy" 
-                                    referrerpolicy="no-referrer-when-downgrade" 
-                                    class="w-full"
-                                ></iframe>
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3600.061030225266!2d-103.53069882545248!3d25.536343917882007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x868fd891a477fad3%3A0x9035e78119833ef2!2sAquiles%20Serd%C3%A1n%2052%2C%20Zona%20Centro%2C%2035150%20Lerdo%2C%20Dgo.!5e0!3m2!1ses!2smx!4v1748807069135!5m2!1ses!2smx" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                             </div>
                         </div>
                     </div>

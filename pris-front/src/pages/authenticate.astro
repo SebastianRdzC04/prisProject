@@ -4,19 +4,33 @@ import RegisterForm from '../components/react-components/pages/RegisterComponent
 import LayoutAuth from "../layouts/LayoutAuth.astro";
 ---
 
-<LayoutAuth title="Autenticación">
-    <div class="flex min-h-screen items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <div class="w-full max-w-md bg-white rounded-lg shadow-lg overflow-hidden">
-            <div class="p-6">
+<LayoutAuth title="Autenticación | BIORA">
+    <div class="flex min-h-screen items-center justify-center bg-[#faf9f5] py-12 px-4 sm:px-6 lg:px-8">
+        <div class="w-full max-w-md rounded-xl shadow-lg overflow-hidden relative">
+            <!-- Decorative elements -->
+            <div class="absolute -left-8 -top-8 w-32 h-32 rounded-full bg-[#76c86e]/20 -z-10"></div>
+            <div class="absolute -right-8 -bottom-8 w-32 h-32 rounded-full bg-[#44c7d7]/20 -z-10"></div>
+            
+            <div class="bg-white p-8 rounded-xl">
                 <header class="text-center mb-8">
-                    <h1 class="text-2xl font-bold text-gray-800">MediConsulta</h1>
-                    <p class="mt-2 text-gray-600">Bienvenido a nuestro portal de acceso</p>
+                    <h1 class="text-3xl font-bold tracking-tight">
+                        <span class="text-[#76c86e]">B</span> 
+                        <span class="text-[#44c7d7]">I</span> 
+                        <span class="text-[#76c86e]">O</span> 
+                        <span class="text-[#44c7d7]">R</span> 
+                        <span class="text-[#76c86e]">A</span>
+                    </h1>
+                    <p class="mt-2 text-slate-600">Medicina Natural para tu Bienestar</p>
                 </header>
 
                 <div class="form-container">
-                    <div class="flex border-b border-gray-200 mb-6">
-                        <button id="login-tab" class="tab active flex-1 py-3 font-medium text-center focus:outline-none">Iniciar Sesión</button>
-                        <button id="register-tab" class="tab flex-1 py-3 font-medium text-center focus:outline-none">Registrarse</button>
+                    <div class="flex mb-6">
+                        <button id="login-tab" class="tab active flex-1 py-3 font-medium text-center focus:outline-none transition-colors rounded-tl-lg rounded-bl-lg">
+                            Iniciar Sesión
+                        </button>
+                        <button id="register-tab" class="tab flex-1 py-3 font-medium text-center focus:outline-none transition-colors rounded-tr-lg rounded-br-lg">
+                            Registrarse
+                        </button>
                     </div>
 
                     <div id="login-form" class="form-panel active">
@@ -27,6 +41,15 @@ import LayoutAuth from "../layouts/LayoutAuth.astro";
                         <RegisterForm client:load />
                     </div>
                 </div>
+                
+                <div class="mt-8 text-center">
+                    <a href="/" class="text-[#44c7d7] hover:text-[#44c7d7]/80 text-sm flex items-center justify-center gap-1 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                        Volver a Inicio
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -34,12 +57,15 @@ import LayoutAuth from "../layouts/LayoutAuth.astro";
 
 <style>
     .tab {
-        color: #6b7280;
+        color: #94a3b8;
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
     }
 
     .tab.active {
-        color: #3b82f6;
-        border-bottom: 2px solid #3b82f6;
+        color: white;
+        background: linear-gradient(to right, #76c86e, #44c7d7);
+        border: none;
     }
 
     .form-panel {
