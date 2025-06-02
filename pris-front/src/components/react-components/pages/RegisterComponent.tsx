@@ -3,14 +3,29 @@
 import { useState } from "react";
 
 export default function RegisterForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    first_name: "",
+    last_name: "",
+    birth_date: "",
+    phone_number: "",
+    address: "",
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [notification, setNotification] = useState({
     show: false,
     type: "",
     message: "",
   });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   const showNotification = (type: string, message: string) => {
     setNotification({ show: true, type, message });
@@ -24,13 +39,16 @@ export default function RegisterForm() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("https://apipris.kysedomi.lat/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        "https://apipris.kysedomi.lat/auth/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await response.json();
 
@@ -44,8 +62,15 @@ export default function RegisterForm() {
       );
 
       // Limpiar el formulario
-      setEmail("");
-      setPassword("");
+      setFormData({
+        email: "",
+        password: "",
+        first_name: "",
+        last_name: "",
+        birth_date: "",
+        phone_number: "",
+        address: "",
+      });
     } catch (error: any) {
       showNotification(
         "error",
@@ -100,9 +125,50 @@ export default function RegisterForm() {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Personal Information */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label
+              htmlFor="first_name"
+              className="block text-sm font-medium text-slate-700 mb-1"
+            >
+              Nombre
+            </label>
+            <input
+              id="first_name"
+              name="first_name"
+              type="text"
+              placeholder="Juan"
+              value={formData.first_name}
+              onChange={handleChange}
+              required
+              className="w-full p-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c86e] focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="last_name"
+              className="block text-sm font-medium text-slate-700 mb-1"
+            >
+              Apellido
+            </label>
+            <input
+              id="last_name"
+              name="last_name"
+              type="text"
+              placeholder="Pérez"
+              value={formData.last_name}
+              onChange={handleChange}
+              required
+              className="w-full p-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c86e] focus:border-transparent"
+            />
+          </div>
+        </div>
+
+        {/* Contact Information */}
         <div>
           <label
-            htmlFor="email-register"
+            htmlFor="email"
             className="block text-sm font-medium text-slate-700 mb-1"
           >
             Correo electrónico
@@ -125,19 +191,95 @@ export default function RegisterForm() {
               </svg>
             </div>
             <input
-              id="email-register"
+              id="email"
+              name="email"
               type="email"
               placeholder="correo@ejemplo.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={handleChange}
               required
               className="w-full pl-10 p-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c86e] focus:border-transparent"
             />
           </div>
         </div>
+
         <div>
           <label
-            htmlFor="password-register"
+            htmlFor="phone_number"
+            className="block text-sm font-medium text-slate-700 mb-1"
+          >
+            Número de teléfono
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                />
+              </svg>
+            </div>
+            <input
+              id="phone_number"
+              name="phone_number"
+              type="tel"
+              placeholder="+1234567890"
+              value={formData.phone_number}
+              onChange={handleChange}
+              required
+              className="w-full pl-10 p-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c86e] focus:border-transparent"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label
+            htmlFor="birth_date"
+            className="block text-sm font-medium text-slate-700 mb-1"
+          >
+            Fecha de nacimiento
+          </label>
+          <input
+            id="birth_date"
+            name="birth_date"
+            type="date"
+            value={formData.birth_date}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c86e] focus:border-transparent"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="address"
+            className="block text-sm font-medium text-slate-700 mb-1"
+          >
+            Dirección
+          </label>
+          <input
+            id="address"
+            name="address"
+            type="text"
+            placeholder="Calle Principal #123"
+            value={formData.address}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c86e] focus:border-transparent"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="password"
             className="block text-sm font-medium text-slate-700 mb-1"
           >
             Contraseña
@@ -160,10 +302,11 @@ export default function RegisterForm() {
               </svg>
             </div>
             <input
-              id="password-register"
+              id="password"
+              name="password"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formData.password}
+              onChange={handleChange}
               required
               className="w-full pl-10 p-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c86e] focus:border-transparent"
             />
@@ -172,6 +315,7 @@ export default function RegisterForm() {
             La contraseña debe tener al menos 8 caracteres
           </p>
         </div>
+
         <button
           type="submit"
           disabled={isLoading}

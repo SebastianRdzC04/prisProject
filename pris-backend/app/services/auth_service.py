@@ -2,9 +2,10 @@ from fastapi import HTTPException
 
 from passlib.context import CryptContext
 
+from ..repositories.personal_data_repository import PersonalDataRepository
 from ..repositories.user_repository import UserRepository
 from ..repositories.client_repository import ClientRepository
-from ..db.models import User, Client
+from ..db.models import User, Client, PersonalData
 from ..schemas.client_schema import ClientRead
 from ..schemas.auth_schema import LoginRequest, LoginResponse
 from ..config import security
@@ -14,10 +15,14 @@ from ..repositories.admin_repository import AdminRepository
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 class AuthService:
-    def __init__(self, user_repository:UserRepository, client_repository:ClientRepository, admin_repository:AdminRepository):
+    def __init__(self, user_repository:UserRepository,
+                 client_repository:ClientRepository,
+                 personal_data_repository:PersonalDataRepository,
+                 admin_repository:AdminRepository):
         self.user_repository = user_repository
         self.client_repository = client_repository
         self.admin_repository = admin_repository
+        self.personal_data_repository = personal_data_repository
 
     async def register(self, register_data:RegisterRequest) -> ClientRead :
         """
@@ -36,6 +41,21 @@ class AuthService:
         user_created = await self.user_repository.create_user(new_user)
         if not user_created:
             raise HTTPException(status_code=500, detail="User creation failed")
+
+        new_personal_data = PersonalData(
+            user_id=user_created.id,
+            first_name=register_data.first_name,
+            last_name=register_data.last_name,
+            phone_number=register_data.phone_number,
+            birth_date=register_data.birth_date,
+            address=register_data.address
+        )
+
+        personal_data_created = await self.personal_data_repository.create_personal_data(new_personal_data)
+
+        if not personal_data_created:
+            raise HTTPException(status_code=500, detail="Personal data creation failed")
+        # Check if the user already has a client
 
         client_existing = await self.client_repository.get_client_by_user_id(user_created.id)
         if client_existing:
