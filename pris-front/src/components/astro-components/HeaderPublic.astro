@@ -2,6 +2,7 @@
 // Header.astro
 import AppointmentModal from '../react-components/AppointmentModal';
 import ButtonDate from '../react-components/components/ButtonDate';
+import { Image } from "astro:assets";
 
 // Inicialmente no sabemos si el usuario está autenticado
 // Esto se verificará en el cliente mediante JavaScript
@@ -9,17 +10,19 @@ const isLoggedIn = false;
 ---
 
 <header class="w-full bg-white text-gray-800 shadow-lg fixed top-0 left-0 z-50">
-    <div class="container mx-auto px-4 py-4">
+    <div class="container mx-auto px-4 py-1">
         <div class="flex items-center justify-between">
-            <div>
-                <a href="/" class="text-3xl font-bold text-gray-800">
-                    <h1 class="text-3xl font-bold tracking-tight">
-                        <span class="text-[#76c86e]">B</span> 
-                        <span class="text-[#44c7d7]">I</span> 
-                        <span class="text-[#76c86e]">O</span> 
-                        <span class="text-[#44c7d7]">R</span> 
-                        <span class="text-[#76c86e]">A</span>
-                    </h1>
+            <div class="py-1">
+                <a href="/" class="flex items-center">
+                    <div class="w-auto h-15 flex items-center">
+                        <Image 
+                            src="/BioraLogoReal.png" 
+                            alt="Logo de BIORA" 
+                            width={180} 
+                            height={60} 
+                            class="object-contain max-h-full" 
+                        />
+                    </div>
                 </a>
             </div>
             <div class="flex items-center gap-4">
